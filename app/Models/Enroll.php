@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Enroll extends Model
 {
     use HasFactory;
-    function getCourseById($id)
-    {
-        return Course::find($id);
-    }
+    public $timestamps = false;
+    protected $fillable = [
+        'user_id',
+        'course_id',
+        
+    ];
 }
+

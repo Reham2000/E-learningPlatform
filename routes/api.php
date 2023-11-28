@@ -5,6 +5,8 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DataCourseController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PasswordResetController;
@@ -14,7 +16,7 @@ use App\Http\Controllers\VideoController;
 use App\Models\Data_course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+// use App\Http\Controllers\PaypalController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -91,8 +93,14 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 
-    // Course Routes
+    // Payment Routes
+    
 
+    Route::get('payment/{userId}/{courseId}/{amount}',[PayPalController::class, 'payment'])->name('payment');
+    Route::get('cancel',[PapyalController::class, 'cancel'])->name('payment.cancel');
+    Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
+
+    
 
     // Course Routes
 
