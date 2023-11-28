@@ -37,7 +37,9 @@ Route::get('data-course/{id}',[DataCourseController::class,'getCourseData']);
 Route::controller(CourseController::class)->group(function(){
     Route::get('courses/{id?}','getCourse');
 });
-
+Route::controller(FileController::class)->group(function(){
+    Route::get('fileDownload/{id}','downloadFile');
+});
 // Protected Routes
 
 Route::middleware('auth:sanctum')->group(function(){

@@ -13,7 +13,12 @@ class FileController extends Controller
         {
             $file = File::find($id);
             $myFile = storage_path("app\public\\files\\". $file->file_name);
-            return response()->download($myFile);
+            if(file_exists($myFile)){
+                return response()->download($myFile);
+            }else{
+            return response()->json(['status' => 404,'message' => "File not found",'file'=>$myFile],404);
+
+            }
         }else{
             return response()->json(['status' => 404,'message' => "set file id first"],404);
         }
