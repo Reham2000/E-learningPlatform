@@ -14,78 +14,95 @@ class DataCourseController extends Controller
 {
     public function getData_course($id = NULL)
     {
-        if(is_null($id))
-        {
-            $data =Data_course::all();
-            foreach($data as $item){
-                $courses = Data_course::find($item->id);
-                $courses['chapters'] = Chapter::where('course_id',$courses->id)->get();
-                $courses['chapters']['lessons'] = Lesson::where('chapter_id',$courses['chapters'][0]->id)->get();
-                $courses['chapters']['lessons']['files'] = File::where('lesson_id',$courses['chapters']['lessons']->id)->get();
-                $courses['chapters']['lessons']['videos'] = Video::where('lesson_id',$courses['chapters']['lessons']->id)->get();
-            }
-
-        }else{
-            $courses = Data_course::find($id);
-            $courses['chapters'] = Chapter::where('course_id',$courses->id)->get();
-            // $courses['chapters']['lessons'] = Lesson::where('chapter_id',$courses['chapters'][0]['id'])->first();
-            // $courses['chapters'] = ['lessons' => $courses['lessons']];
-
-            if(is_null($courses['chapters']) && ! is_array($courses['chapters'])){
-                $courses['chapters'] = ['message' => 'No Chapters are Found'];
-            }else if(is_array($courses['chapters'])){
-                foreach ($courses['chapters'] as $chapter) {
-                    $courses['chapters'][$chapter->id] = ['lessons' => "lessons here"];
-                    // $chapter['lessons'] = Lesson::where('chapter_id',$chapter->id)->get();
-                    // $courses['chapters']->chapter->id = ['lessons' => $chapter['lessons']];
+        if (is_null($id)) {
+            $courses = Data_course::all();
+            foreach ($courses as $course) {
+                $chapters = Chapter::where('course_id', $course->id)->get();
+                if (count($chapters) > 1) {
+                    foreach ($chapters as $chapter) {
+                        $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
+                        $lessons = $chapter['lessons'];
+                        foreach ($lessons as $lesson) {
+                            $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                            $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                        }
+                    }
+                    if (count($chapter['lessons']) < 1) {
+                        $chapter['lessons'] = "No Lessons";
+                    }
                 }
+                $course['chapters'] = $chapters;
             }
-
-
-            // foreach ($courses['chapters'] as $chapter) {
-            //     // $courses['chapters']['lessons'] = Lesson::where('chapter_id',$chapter->id)->get();
-            //     // $courseChapters['lessons'] = Lesson::where('chapter_id',$chapter->id)->get();
-            //     // array_push($courseChapters[$chapter->id],$courseChapters['lessons']);
-
-            // }
-            // $courses['chapters']['lessons']['files'] = File::where('lesson_id',$courses['chapters']['lessons']->id)->get();
-            // $courses['chapters']['lessons']['videos'] = Video::where('lesson_id',$courses['chapters']['lessons']->id)->get();
             return response()->json([
                 'status' => 200,
-                'message' => "OK!",
-                'data' => $courses
-            ]) ;
+                'message' => "Course Data",
+                'courseData' => $courses,
+            ], 200);
+        } else {
+            if ($id) {
+                $course = Data_course::find($id);
+
+                $chapters = Chapter::where('course_id', $course->id)->get();
+                if (count($chapters) > 1) {
+                    foreach ($chapters as $chapter) {
+                        $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
+                        $lessons = $chapter['lessons'];
+                        foreach ($lessons as $lesson) {
+                            $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                            $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                        }
+                    }
+                    if (count($chapter['lessons']) < 1) {
+                        $chapter['lessons'] = "No Lessons";
+                    }
+                }
+                $course['chapters'] = $chapters;
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Course Data",
+                    'courseData' => $course,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => "Course ID must Selected",
+                ], 404);
+            }
         }
-
-        if($courses){
-            return response()->json([
-                'status' => 200,
-                'message' => "OK!",
-                'data' => $courses
-            ]) ;
-        }
-
-        return response()->json([
-                'status' => 404,
-                'message' => "No data Found",
-        ],404) ;
-        // if(is_null($data))
-        // {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => "no data found ",
-        //     ]) ;
-        // }else{
-
-        // }
-        // return response()->json([
-        //     'status' => 200,
-        //     'message' => "OK!",
-        //     'data' => $data
-        // ]) ;
     }
+    
     public function getCourseData($id)
     {
+        if ($id) {
+            $course = Data_course::find($id);
 
+            $chapters = Chapter::where('course_id', $course->id)->get();
+            if (count($chapters) > 1) {
+                foreach ($chapters as $chapter) {
+                    $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
+                    $lessons = $chapter['lessons'];
+                    foreach ($lessons as $lesson) {
+                        $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                        $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                    }
+                }
+                if (count($chapter['lessons']) < 1) {
+                    $chapter['lessons'] = "No Lessons";
+                }
+            }
+            $course['chapters'] = $chapters;
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Course Data",
+                'courseData' => $course,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "Course ID must Selected",
+            ], 404);
+        }
     }
 }

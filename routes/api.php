@@ -33,7 +33,10 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 Route::post('/send-reset-password-email',[PasswordResetController::class,'sendResetPasswordEmail']);
 Route::post('/reset-password/{token}',[PasswordResetController::class,'reset']);
-
+Route::get('data-course/{id}',[DataCourseController::class,'getCourseData']);
+Route::controller(CourseController::class)->group(function(){
+    Route::get('courses/{id?}','getCourse');
+});
 
 // Protected Routes
 
@@ -85,7 +88,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // File Routes
     Route::controller(FileController::class)->group(function(){
-
+        Route::get('fileDownload/{id}','downloadFile');
     });
 
     // Video Routes
@@ -94,13 +97,13 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     // Payment Routes
-    
+
 
     Route::get('payment/{userId}/{courseId}/{amount}',[PayPalController::class, 'payment'])->name('payment');
     Route::get('cancel',[PapyalController::class, 'cancel'])->name('payment.cancel');
     Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
 
-    
+
 
     // Course Routes
 

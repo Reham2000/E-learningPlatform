@@ -13,6 +13,10 @@ use App\Models\User;
 
 class PasswordResetController extends Controller
 {
+    function resetPass($token)
+    {
+        return view('resetPassword',['token']);
+    }
     public function sendResetPasswordEmail(Request $request)
     {
         $request->validate([
