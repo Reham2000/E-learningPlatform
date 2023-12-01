@@ -26,4 +26,8 @@ class CourseController extends Controller
             'data' => $data
         ]) ;
     }
+    function search($name)
+    {
+        return Course::where("course_title","like","%".$name."%")->get();
+    }
 }

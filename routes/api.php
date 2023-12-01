@@ -36,6 +36,7 @@ Route::post('/reset-password/{token}',[PasswordResetController::class,'reset']);
 Route::get('data-course/{id}',[DataCourseController::class,'getCourseData']);
 Route::controller(CourseController::class)->group(function(){
     Route::get('courses/{id?}','getCourse');
+    Route::get("search/{name}",'search');
 });
 Route::controller(FileController::class)->group(function(){
     Route::get('fileDownload/{id}','downloadFile');
