@@ -19,6 +19,11 @@ class DashboardController extends Controller
         if(! session()->has('admin')){
             return view('admin.login');
         }
+        // dd(session()->get('role'));
+        if( session()->get('role') != '1'){
+            $id = session()->get('id');
+            return redirect()->route('instructor.courses',compact('id'));
+        }
         $users = User::all();
         $courses = Course::all();
         $instructors = Instructor::all();

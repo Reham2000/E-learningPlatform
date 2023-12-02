@@ -6,7 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LessonController;
@@ -109,7 +109,9 @@ Route::controller(SupportController::class)->group(function(){
     Route::post('support/answer/{id}','answer')->name('support.answer');
 
 });
-
+Route::controller(FileController::class)->group(function(){
+    Route::get('fileDownload/{id}','download')->name('fileDownload');
+});
     // Route::get('instructors',[DashboardController::class,'goToDashboard'])->name('admin.instructors');
     // Route::get('courses',[DashboardController::class,'goToDashboard'])->name('admin.courses');
     Route::get('enrollment',[DashboardController::class,'goToDashboard'])->name('admin.enrollment');

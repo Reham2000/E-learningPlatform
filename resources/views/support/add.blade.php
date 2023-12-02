@@ -13,10 +13,10 @@
                 <form action="{{ route('support.answer',$id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @if (isset($error))
-                        <p class="text-danger">{{$error}}</p> 
+                        <p class="text-danger">{{$error}}</p>
                     @endif
                     <div class="mb-3 ">
-                        <label for="exampleInputName1" class="form-label font-weight-bold">Course Name</label>
+                        <label for="exampleInputName1" class="form-label font-weight-bold">Message</label>
                         <input type="text" name="meassage" disabled value="{{$support->meassage}}" class="form-control" id="exampleInputName1"
                             aria-describedby="emailHelp" />
                     </div>
@@ -26,7 +26,7 @@
                         @endforeach
                     @endif
                     <div class="mb-3 ">
-                        <label for="exampleInputName1" class="form-label font-weight-bold">description</label>
+                        <label for="exampleInputName1" class="form-label font-weight-bold">Answer</label>
                         <textarea type="number" name="answer" value="{{old('answer')}}" class="form-control" id="exampleInputName1"
                             aria-describedby="emailHelp">{{old('answer')}}</textarea>
                     </div>
@@ -35,11 +35,11 @@
                             <p class="text-danger">* {{ $error }}</p>
                         @endforeach
                     @endif
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     <button type="submit" class="btn btn-primary px-4" >
                         Add <i class="fas fa-plus px-2"></i>
                     </button>

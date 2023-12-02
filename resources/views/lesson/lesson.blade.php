@@ -15,14 +15,25 @@ Lesson : {{$lesson->lesson_name}}
             <p> {{$lesson->lesson_desc}} </p>
             <h5 class="text-bold text-primary">Uploaded at</h5>
             <p> {{$lesson->created_at}} </p>
+            {{-- {{dd($lesson['files'])}} --}}
+            @if(is_array($lesson['files']) && count($lesson['files']) > 1)
+            @forelse ($lesson['files'] as $file )
+            <a href="{{route('fileDownload',$file->id)}}">{{$file->file_name}}</a>
+            @empty
+            @endforelse
+            @else
+            <a href="{{route('fileDownload',$lesson['files']->id)}}">{{$lesson['files']->file_name}}</a>
+
+            @endif
+
 
         </div>
         <div class="col-md-7 col-sm-12">
-            <video width="100%" height="340" controls>
+            {{-- <video width="100%" height="340" controls>
                 <source src="{{storage_path("app\public\\videos\\". $lesson['videos']->video_name)}}" type="video/mp4">
                 Your browser does not support the video tag.
-            </video>
-            
+            </video> --}}
+            <video controls src="{{storage_path("app\public\\videos\\". $lesson['videos']->video_name)}}"></video>
         </div>
     </div>
     <a href="{{route('lesson.back',$lesson->chapter_id)}}" class="btn btn-secondary m-5">Back</a>
