@@ -105,4 +105,34 @@ class DataCourseController extends Controller
             ], 404);
         }
     }
+    public function getCourseDataForInstruc($id)
+    {
+        if ($id) {
+            $course = Data_course::find($id);
+
+            $chapters = Chapter::where('course_id', $course->id)->get();
+            if (count($chapters) > 1) {
+                foreach ($chapters as $chapter) {
+                    $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
+                    $lessons = $chapter['lessons'];
+                    foreach ($lessons as $lesson) {
+                        $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                        $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                    }
+                }
+                if (count($chapter['lessons']) < 1) {
+                    $chapter['lessons'] = "No Lessons";
+                }
+            }
+            $course['chapters'] = $chapters;
+
+            return view('instructor.courseData',compact('course'));
+            
+            
+        } else {
+            
+            return view('instructor.courses');
+
+        }
+    }
 }

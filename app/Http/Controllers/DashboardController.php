@@ -38,6 +38,6 @@ class DashboardController extends Controller
             'payment_num' => count($payments),
 
         ];
-        return view('admin.dashboard',$data);
+        return view('admin.dashboard',compact('data'));
     }
 }

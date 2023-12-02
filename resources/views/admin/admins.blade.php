@@ -40,12 +40,12 @@
                                         <td>{{$admin->id}}</td>
                                         <td>{{$admin->fullname}}</td>
                                         <td>{{$admin->email}}</td>
-                                        <td class="font-weight-bold {{$admin->active == 1 ? 'text-success' : 'text-danger'}}">{{$admin->active == 1 ? 'Active' : 'Not Active'}}</td>
+                                        <td class="font-weight-bold {{$admin->active == '1' ? 'text-success' : 'text-danger'}}">{{$admin->active == 1 ? 'Active' : 'Not Active'}}</td>
                                         <td>
                                             <a href="{{route('admin.edite',$admin->id)}}" class="btn btn-primary">Edite</a>
                                         </td>
                                         <td>
-                                            <a href="{{route('admin.delete',$admin->id)}}" class="btn {{$admin->active == 1 ? 'btn-danger' : 'btn-success'}}">
+                                            <a href="{{route('admin.block',$admin->id)}}" class="btn {{$admin->active == '1' ? 'btn-danger' : 'btn-success'}}">
                                             @if ($admin->active == 1)
                                             <i class="fas fa-ban px-2"></i> Block
                                             @else

@@ -24,4 +24,38 @@ class FileController extends Controller
         }
 
     }
+    function uploadImage($image)
+    {
+        $file_extension = $image->getClientOriginalExtension();
+        
+            $file_name = time() . '.' . $file_extension;
+            $path = 'images/instructors';
+            $image->move($path,$file_name);
+            return $file_name;
+        
+
+    }
+    
+    function uploadFile($file)
+    {
+        $file_extension = $file->getClientOriginalExtension();
+        
+            $file_name = time() . '.' . $file_extension;
+            $path = '../storage/app/public/files';
+            $file->move($path,$file_name);
+            return $file_name;
+        
+    }
+    function add($id,$file)
+    {
+        $addFile = File::create([
+            'file_name' => $file,
+            'lesson_id' => $id
+        ]);
+        if($addFile){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

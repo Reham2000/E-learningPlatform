@@ -64,7 +64,7 @@
                             <p class="text-danger">* {{ $error }} </p>
                         @endforeach
                     @endif
-                    <button type="submit" class="btn btn-primary px-4" vlaue="Login">
+                    <button type="submit" class="btn btn-primary px-4" >
                         Add <i class="fas fa-plus px-2"></i>
                     </button>
                 </form>

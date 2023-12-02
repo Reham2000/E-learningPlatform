@@ -1,21 +1,25 @@
 @extends('admin.layout')
 
 @section('title')
-    Users
+    Categories
 @endsection
 
 
 @section('content')
+@php
+    $id = session()->get('id');
+@endphp
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6 pb-3">
+                    <a href="{{route('category.add',compact('id'))}}" class="btn btn-success"><i class="fas fa-user px-2"></i> Add New Category </a>
                 </div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">All Courses</h3>
+                            <h3 class="card-title">All Categories</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -24,19 +28,17 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>Edite</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users as $user)
+                                    @forelse ($categories as $category)
                                     <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{is_null($user->email_verified_at) ? 'Not Verified' : 'Verified' }}</td>
-                                        <td><a href="{{route('user.block',$user->id)}}" class="btn {{$user->tc == '1' ? 'btn-danger' : 'btn-success' }}"> {{$user->tc == '1' ? 'Block' : 'Active' }}</a></td>
+                                        <td>{{$category->id}}</td>
+                                        <td>{{$category->category_name}}</td>
+                                        <td><a href="{{route('category.edite',$category->id)}}" class="btn btn-primary">Edite</a></td>
+                                        <td><a href="{{route('category.delete',$category->id)}}" class="btn btn-danger">Delete</a></td>
                                     </tr>
                                         
                                     @empty
@@ -49,9 +51,8 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>Edite</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>

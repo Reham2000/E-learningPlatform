@@ -1,11 +1,14 @@
 @extends('admin.layout')
 
 @section('title')
-    Users
+    Courses
 @endsection
 
 
 @section('content')
+@php
+    $id = session()->get('id');
+@endphp
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -23,20 +26,21 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>Course Name</th>
+                                        <th>Course Description</th>
+                                        <th>Course Price</th>
+                                        <th>Block Course</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users as $user)
+                                    @forelse ($courses as $course)
                                     <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{is_null($user->email_verified_at) ? 'Not Verified' : 'Verified' }}</td>
-                                        <td><a href="{{route('user.block',$user->id)}}" class="btn {{$user->tc == '1' ? 'btn-danger' : 'btn-success' }}"> {{$user->tc == '1' ? 'Block' : 'Active' }}</a></td>
+                                        {{-- {{dd($course)}} --}}
+                                        <td>{{$course->id}}</td>
+                                        <td>{{$course->course_title}}</td>
+                                        <td>{{$course->course_brief}}</td>
+                                        <td>{{$course->course_price}}</td>
+                                        <td><a href="{{route('courses.block',$course->id)}}" class="btn {{$course->blocked == '0' ? 'btn-danger' : 'btn-success' }}"> {{$course->blocked == '0' ? 'Block' : 'Active' }}</a></td>
                                     </tr>
                                         
                                     @empty
@@ -48,10 +52,10 @@
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>Course Name</th>
+                                        <th>Course Description</th>
+                                        <th>Course Price</th>
+                                        <th>Block Course</th>
                                     </tr>
                                 </tfoot>
                             </table>

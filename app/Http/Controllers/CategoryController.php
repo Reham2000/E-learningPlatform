@@ -34,6 +34,55 @@ class CategoryController extends Controller
             ]) ;
         }
     }
+    function getCategories(){
+        $categories = Category::all();
+        return view('category.categories',compact('categories'));
+    }
+    function add($id)
+    {
+        return view('category.add',compact('id'));
+    }
+    function create(Request $request,$id)
+    {
+        
+        $request->validate([
+            'category_name' => 'required|min:2|max:100',
+        ]);
+        $admin = Category::create([
+            'category_name' => $request->category_name,
+            'admin_id' => $id,
+        ]);
+        $categories = Category::all();
+        return redirect()->route('category.categories',compact('categories'));
+        // return view('category/categories',compact('categories'));
+        
+    }
+    function edite($id)
+    {
+        $category = Category::find($id);
+        return view('category.edite',['id'=> $id,'category'=>$category]);
+    }
+    function update(Request $request,$id)
+    {
+        $request->validate([
+            'category_name' => 'required|min:2|max:1000',
+        ]);
 
+            $category = Category::find($id);
+            $category->category_name = $request->category_name ;
+            $category->admin_id  = session()->get('id')  ;
+            $category->save();
+
+        $categories = Category::all();
+
+        return redirect()->route('category.categories',compact('categories'));
+    }
+    function delete($id)
+    {
+        $category = Category::find($id)->delete();
+        $categories = Category::all();
+
+        return redirect()->route('category.categories',compact('categories'));
+    }
 
 }

@@ -99,4 +99,26 @@ class UserController extends Controller
             return true;
         }
     }
+    function getUsers()
+    {
+        $users = User::all();
+        return view('admin.users',compact('users'));
+    }
+    function block($id)
+    {
+        $user = user::find($id);
+        if($user->tc == '0')
+        {
+            $user->tc = '1';
+        }else{
+            $user->tc = '0';
+        }
+        $user->save();
+
+        $users = user::all();
+        return redirect()->route('admin.users',compact('users'));
+        
+
+
+    }
 }

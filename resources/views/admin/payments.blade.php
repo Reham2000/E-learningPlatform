@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    Users
+    Payments
 @endsection
 
 
@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">All Courses</h3>
+                            <h3 class="card-title">All Payments</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -23,20 +23,25 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>payment_id</th>
+                                        <th>payer_id </th>
+                                        <th>amount</th>
+                                        <th>currency</th>
+                                        <th>payment_status</th>
+                                        <th>created_at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users as $user)
+                                    @forelse ($payments as $payment)
                                     <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{is_null($user->email_verified_at) ? 'Not Verified' : 'Verified' }}</td>
-                                        <td><a href="{{route('user.block',$user->id)}}" class="btn {{$user->tc == '1' ? 'btn-danger' : 'btn-success' }}"> {{$user->tc == '1' ? 'Block' : 'Active' }}</a></td>
+                                        <td>{{$payment->id}}</td>
+                                        <td>{{$payment->payment_id}}</td>
+                                        <td>{{$payment->payer_id}}</td>
+                                        <td>{{$payment->amount}}</td>
+                                        <td>{{$payment->currency}}</td>
+                                        <td>{{$payment->payment_status}}</td>
+                                        <td>{{$payment->created_at}}</td>
+
                                     </tr>
                                         
                                     @empty
@@ -48,10 +53,12 @@
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Block</th>
+                                        <th>payment_id</th>
+                                        <th>payer_id </th>
+                                        <th>amount</th>
+                                        <th>currency</th>
+                                        <th>payment_status</th>
+                                        <th>created_at</th>
                                     </tr>
                                 </tfoot>
                             </table>

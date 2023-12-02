@@ -50,16 +50,24 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
-                @if (session()->has('admin'))
 
+                @if (session()->has('admin'))
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{route('admin.logout')}}" class="nav-link">Logout</a>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{route('admin.support')}}" class="nav-link">Contact</a>
-                    </li>
                 </li>
-
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{route('support.supports')}}" class="nav-link">Contact</a>
+                </li>
+                
                 @else
+                @endif
+                @php
+                    $id = session()->get('id');
+                @endphp
+                @if(session()->has('admin') && session()->get('role') == '2')
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{route('instructor.courses',compact('id'))}}" class="nav-link">My Courses</a>
+                </li>
                 @endif
             </ul>
 
@@ -97,7 +105,8 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
-
+                        @if (session()->get('admin') && session()->get('role') == '1')
+                            
                         <li class="nav-item">
                             <a href="{{route('admin.admins')}}" class="nav-link">
                                 <i class="nav-icon fas fa-chart-pie"></i>
@@ -122,6 +131,32 @@
 
                             </ul>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a href="{{route('category.categories')}}" class="nav-link">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>
+                                    Categories
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('category.categories')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Categories</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('category.add',compact('id'))}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Category</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
                             <a href="{{route('instructor.instructors')}}" class="nav-link">
                                 <i class="nav-icon fas fa-chart-pie"></i>
@@ -138,7 +173,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('admin.add')}}" class="nav-link">
+                                    <a href="{{route('admin.add',compact('id'))}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Instructor</p>
                                     </a>
@@ -146,62 +181,60 @@
 
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    Categories
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/charts/chartjs.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>All Categories</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Category</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
-
-
                         <li class="nav-header">EXAMPLES</li>
+                        @endif
 
+                        
+                        @if (session()->get('admin') && session()->get('role') == '2')
+                        <li class="nav-item">
+                            <a href="{{route('instructor.edite',compact('id'))}}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-warning"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('instructor.courses',compact('id'))}}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-primary"></i>
+                                <p>My Course</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('course.add',compact('id'))}}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-danger"></i>
+                                <p>Add New Course</p>
+                            </a>
+                        </li>
+                        @endif
+                        
+                        
 
-
+                        @if (session()->get('admin') && session()->get('role') == '1')
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('course.courses')}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-primary"></i>
                                 <p>Courses</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('support.supports')}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>Support</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('admin.users')}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p>Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('admin.payments')}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-success"></i>
                                 <p>Payments</p>
                             </a>
                         </li>
-
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -228,9 +261,9 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-
             <!-- Main content -->
             @yield('content')
+
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->

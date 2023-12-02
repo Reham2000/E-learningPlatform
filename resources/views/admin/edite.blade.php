@@ -65,7 +65,7 @@
                         @endforeach
                     @endif
                     <button type="submit" class="btn btn-primary px-4" vlaue="Login">
-                        Add <i class="fas fa-plus px-2"></i>
+                        Update <i class="fas fa-list px-2"></i>
                     </button>
                 </form>
             </div>

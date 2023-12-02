@@ -19,32 +19,43 @@ class AdminController extends Controller
 
         if($admin && Hash::check($request->password,$admin->password))
         {
-            $token = $admin->createToken($request->email)->plainTextToken;
             $data = [
                 'message' => "login Done Successfully!",
-                'token' => $token,
                 'admin' => $admin
             ];
+            $request->session()->put('admin',$admin);
+            $request->session()->put('id',$admin->id);
+            $request->session()->put('role',$admin->role);
 
-            session_start();
+
             $_SESSION['admin'] = $admin;
-            $_SESSION['token'] = $token;
 
-            return view('admin.dashboard',$data);
+            return view('admin.dashboard',compact('data'));
         }
+        $error = "Wrong Email or Password";
+        return view('admin.login',compact('error'));
 
-        return $data = [
-            'message' => "Wrong Email Or Password!",
-        ];
     }
-
-
-    public function adminLogin (Request $request)
+    function block($id)
     {
-        $data = $request->input();
-        $request->session()->put('admin',$data['email']);
-        return redirect('dashboard');
+        $admin = Admin::find($id);
+        if($admin->active == 1)
+        {
+            $admin->active = '2';
+        }else{
+            $admin->active = '1';
+        }
+        $admin->save();
+        if($admin->role == 1){
+            return $this->getAdmins();
+        }else{
+            return $this->getInstruct();
+        }
+        return $this->getInstruct();
+
+
     }
+
     function isLogin()
     {
         if(session()->has('admin')){
@@ -54,7 +65,6 @@ class AdminController extends Controller
     }
     public function adminLogout()
     {
-        $this->adminAuth();
         if(session()->has('admin')){
             session()->pull('admin');
         }
@@ -120,23 +130,23 @@ class AdminController extends Controller
             return view('instructor.instructors',compact('admins'));
         }
     }
-    function deleteAdmin(Request $request)
-    {
-        $request->validate([
-            'fullname' => 'required|min:2|max:60',
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required|min:6|max:30|confirmed',
-            'password_confirmation' => 'required'
-        ]);
-        $admin = Admin::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+    // function deleteAdmin(Request $request)
+    // {
+    //     $request->validate([
+    //         'fullname' => 'required|min:2|max:60',
+    //         'email' => 'required|email|unique:admins,email',
+    //         'password' => 'required|min:6|max:30|confirmed',
+    //         'password_confirmation' => 'required'
+    //     ]);
+    //     $admin = Admin::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
 
-        ]);
+    //     ]);
 
-        return view('admin.admins');
-    }
+    //     return view('admin.admins');
+    // }
     function getAdmins()
     {
         $admins = Admin::all();

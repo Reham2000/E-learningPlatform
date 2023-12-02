@@ -93,4 +93,9 @@ class PayPalController extends Controller
 
         dd('Please try again later.');
     }
+    function getPayments()
+    {
+        $payments = Payment::all();
+        return view('admin.payments',compact('payments'));
+    }
 }

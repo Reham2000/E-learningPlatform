@@ -3,7 +3,7 @@
 @section('title')
     Dashboard
 @endsection
-
+{{-- {{dd($data)}} --}}
 
 @section('content')
     <!-- Main content -->
@@ -16,7 +16,7 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-warning">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$registertion_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['registertion_num']}}</h3>
 
                             <h4>User Registrations</h4>
                         </div>
@@ -31,14 +31,14 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-danger">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$instructors_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                             <h4>Instructors</h4>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="{{route('admin.instructors')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('instructor.instructors')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -46,14 +46,14 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-info">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$courses_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                             <h4>Courses</h4>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="{{route('admin.courses')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('course.courses')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -61,7 +61,7 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-success">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$enrollment_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                             <h4>Enrollment</h4>
                         </div>
@@ -76,7 +76,7 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-success">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$admin_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                             <h4>Admins</h4>
                         </div>
@@ -91,14 +91,14 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-warning">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$support_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                         <h4>Support</h4>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="{{route('admin.support')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('support.supports')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -106,7 +106,7 @@
                     <!-- small box -->
                     <div class="small-box pt-3 bg-danger">
                         <div class="inner">
-                            <h3 class="py-2 px-3">{{$payment_num}}</h3>
+                            <h3 class="py-2 px-3">{{$data['instructors_num']}}</h3>
 
                         <h4>Payments</h4>
                         </div>

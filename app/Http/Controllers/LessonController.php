@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\Video;
 use App\Models\Lesson;
+use App\Models\Chapter;
+use App\Models\Course;
+use App\Models\Data_course;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -49,5 +52,68 @@ class LessonController extends Controller
             'message' => "No Lessons To Show",
 
         ]) ;
+    }
+    function back($id)
+    {
+        $courses = Data_course::where('admin_id',session()->get('id'))->get();
+        return view('instructor.myCourses',compact('courses'));
+    }
+    function shoawLesson($id)
+    {
+        $lesson = Lesson::find($id);
+        $lesson['videos'] = Video::where('lesson_id',$id)->get();
+        $lesson['files'] = File::where('lesson_id',$id)->get();
+        $lesson['videos'] = $lesson['videos'][0];
+        $lesson['files'] = $lesson['files'][0];
+        return view('lesson.lesson',compact('lesson'));
+    }
+    function add($id)
+    {
+        return view('lesson.add',compact('id'));
+    }
+    function create(Request $request,$id)
+    {
+        $file = new FileController;
+        $video = new VideoController;
+        $request->validate([
+            'lesson_name' => 'required|min:2|max:100',
+            'lesson_desc' => 'required|min:20|max:1000',
+            'file' => 'required|mimes:pdf,doc,docx,ppt,pptx',
+            'video' => 'required|mimes:mp4,mov,wmv,avi',
+
+        ]);
+        $admin = Lesson::create([
+            'lesson_name' => $request->lesson_name,
+            'lesson_desc' => $request->lesson_desc,
+            'chapter_id' => $id,
+        ]);
+        $lesson = Lesson::where('lesson_name',$request->lesson_name)->where('chapter_id',$id)->first();
+        $file_name = $file->uploadFile($request->file);
+        if(! $file->add($lesson->id,$file_name))
+        {
+            $error = "File not add ";
+            return view('lesson.add',compact('error'));
+        }
+        $video_name = $video->uploadvideo($request->video);
+        if(! $video->add($lesson->id,$video_name))
+        {
+            $error = "Video not add ";
+            return view('lesson.add',compact('error'));
+        }
+        $chapter = Chapter::find($id);
+        $courses = Course::find($chapter->course_id);
+        $id = $courses->id;
+        $instruct = new InstructorController;
+        return  $instruct->myCourseData($id);
+        // return view('instructor.courseData',compact('id'));
+        // return view('instructor.courseData',compact('id','course'));
+        // $video_name = '';
+        // $file_name = '';
+        // $admins = Lesson::all();
+        // if ($request->role == 1) {
+        //     return view('admin.admins',compact('admins'));
+        // }else{
+        //     return view('instructor.instructors',compact('admins'));
+        // }
     }
 }
