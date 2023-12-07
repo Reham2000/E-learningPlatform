@@ -29,7 +29,10 @@ class AdminController extends Controller
 
 
             $_SESSION['admin'] = $admin;
-
+            if(session()->get('role') == 2){
+                $id = session()->get('id');
+                return redirect()->route('instructor.courses',compact('id'));
+            }
             return view('admin.dashboard',compact('data'));
         }
         $error = "Wrong Email or Password";

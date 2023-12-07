@@ -33,21 +33,37 @@ class ChapterController extends Controller
     }
     function create(Request $request,$id)
     {
-        
+
         $request->validate([
             'chapter_title' => 'required|min:2|max:100',
             'required_time' => 'required|numeric',
         ]);
-        $admin = Chapter::create([
-            'chapter_title' => $request->chapter_title,
-            'required_time' => $request->required_time,
-            'course_id' => $id,
-        ]);
-        
+        if($request->image){
+            $file_extension = $request->image->getClientOriginalExtension();
+            $file_name = time() . '.' . $file_extension;
+            $path = 'images/chapters';
+            $admin = Chapter::create([
+                'chapter_title' => $request->chapter_title,
+                'required_time' => $request->required_time,
+                'course_id' => $id,
+                'image' => $file_name,
+            ]);
+            $request->image->move($path,$file_name);
+
+        }else{
+            $admin = Chapter::create([
+                'chapter_title' => $request->chapter_title,
+                'required_time' => $request->required_time,
+                'course_id' => $id,
+            ]);
+
+        }
+
+
         // $courses = Course::find($id);
         // $id = $courses->id;
         $instruct = new InstructorController;
-        return  $instruct->myCourseData($id);
-        
+        return  $instruct->myCourseData(session()->get('id'),$id);
+
     }
 }

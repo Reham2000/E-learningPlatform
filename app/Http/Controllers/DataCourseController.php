@@ -20,17 +20,26 @@ class DataCourseController extends Controller
                 $chapters = Chapter::where('course_id', $course->id)->get();
                 if (count($chapters) > 1) {
                     foreach ($chapters as $chapter) {
+                        $chapter->image = public_path('images\chapters\\' . $chapter->image);
                         $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
                         $lessons = $chapter['lessons'];
                         foreach ($lessons as $lesson) {
+                            $lesson->image = public_path('images\lessons\\' . $lesson->image);
                             $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                            foreach ($lesson['files'] as $file) {
+                                $file->file_name =  storage_path("app\public\\files\\" . $file->file_name);
+                            }
                             $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                            foreach ($lesson['videos'] as $file) {
+                                $file->video_name =  storage_path("app\public\\videos\\" . $file->video_name);
+                            }
                         }
                     }
                     if (count($chapter['lessons']) < 1) {
                         $chapter['lessons'] = "No Lessons";
                     }
                 }
+
                 $course['chapters'] = $chapters;
             }
             return response()->json([
@@ -45,19 +54,27 @@ class DataCourseController extends Controller
                 $chapters = Chapter::where('course_id', $course->id)->get();
                 if (count($chapters) > 1) {
                     foreach ($chapters as $chapter) {
+                        $chapter->image = public_path('images\chapters\\' . $chapter->image);
                         $chapter['lessons'] = Lesson::where('chapter_id', $chapter->id)->get();
                         $lessons = $chapter['lessons'];
                         foreach ($lessons as $lesson) {
+                            $lesson->image = public_path('images\lessons\\' . $lesson->image);
                             $lesson['files'] = File::where('lesson_id', $lesson->id)->get();
+                            foreach ($lesson['files'] as $file) {
+                                $file->file_name =  storage_path("app\public\\files\\" . $file->file_name);
+                            }
                             $lesson['videos']  = Video::where('lesson_id', $lesson->id)->get();
+                            foreach ($lesson['videos'] as $file) {
+                                $file->video_name =  storage_path("app\public\\videos\\" . $file->video_name);
+                            }
                         }
                     }
+
                     if (count($chapter['lessons']) < 1) {
                         $chapter['lessons'] = "No Lessons";
                     }
                 }
                 $course['chapters'] = $chapters;
-
                 return response()->json([
                     'status' => 200,
                     'message' => "Course Data",
@@ -71,7 +88,7 @@ class DataCourseController extends Controller
             }
         }
     }
-    
+
     public function getCourseData($id)
     {
         if ($id) {
@@ -127,10 +144,10 @@ class DataCourseController extends Controller
             $course['chapters'] = $chapters;
 
             return view('instructor.courseData',compact('course'));
-            
-            
+
+
         } else {
-            
+
             return view('instructor.courses');
 
         }

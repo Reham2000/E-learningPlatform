@@ -19,6 +19,7 @@ class Chapter extends Model
         'chapter_title',
         'required_time',
         'course_id',
-        
+        'image',
+
     ];
 }

@@ -65,7 +65,7 @@ Route::controller(InstructorController::class)->group(function(){
     Route::get('instructor/edite/{id}','edite')->name('instructor.edite');
     Route::post('instructor/update/{id}','update')->name('instructor.update');
     Route::get('instructors/myCourses','getMyCourses')->name('instructor.courses');
-    Route::get('instructors/courseData/{id}','myCourseData')->name('instructor.courseData');
+    Route::get('instructors/courseData/{id}/{course_id}','myCourseData')->name('instructor.courseData');
 
 });
 Route::controller(LessonController::class)->group(function(){

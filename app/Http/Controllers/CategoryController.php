@@ -11,28 +11,20 @@ class CategoryController extends Controller
 
     function getAllCategories($id = NULL)
     {
-        if(Category::where('id',$id)->first()){
-        $data = $id ? Category::find($id) : Category::all();
-        if(is_null($data))
-        {
+            $data = $id ? Category::find($id) : Category::all();
+            if(is_null($data))
+            {
+                return response()->json([
+                    'status' => 404,
+                    'message' => "no data found ",
+                ],404) ;
+            }
             return response()->json([
-                'status' => 404,
-                'message' => "no data found ",
-            ]) ;
-        }else{
+                'status' => 200,
+                'message' => "OK!",
+                'data' => $data
+            ],200) ;
 
-        }
-        return response()->json([
-            'status' => 200,
-            'message' => "OK!",
-            'data' => $data
-        ]) ;
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => "no data found with this ID ",
-            ]) ;
-        }
     }
     function getCategories(){
         $categories = Category::all();
@@ -44,7 +36,7 @@ class CategoryController extends Controller
     }
     function create(Request $request,$id)
     {
-        
+
         $request->validate([
             'category_name' => 'required|min:2|max:100',
         ]);
@@ -55,7 +47,7 @@ class CategoryController extends Controller
         $categories = Category::all();
         return redirect()->route('category.categories',compact('categories'));
         // return view('category/categories',compact('categories'));
-        
+
     }
     function edite($id)
     {

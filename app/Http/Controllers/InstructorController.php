@@ -49,7 +49,7 @@ class InstructorController extends Controller
             'image' => 'required',
         ]);
 
-        
+
         $file_extension = $request->image->getClientOriginalExtension();
         $file_name = time() . '.' . $file_extension;
             $path = 'images/instructors';
@@ -91,12 +91,11 @@ class InstructorController extends Controller
         return view('instructor.myCourses',compact('courses'));
     }
 
-    function myCourseData($id)
+    function myCourseData($id,$course_id)
     {
-
-        $course = Data_course::find($id);
+        $course = Data_course::where('id',$course_id)->first();
         $chapters = Chapter::where('course_id',$course->id)->get();
-        
+
         if( count($chapters) > 0){
             foreach ($chapters as $chapter) {
                 $lessonData = Lesson::where('chapter_id',$chapter->id)->get();

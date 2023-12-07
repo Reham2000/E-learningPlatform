@@ -19,6 +19,7 @@ class Lesson extends Model
         'lesson_name',
         'lesson_desc',
         'chapter_id',
-        
+        'image',
+
     ];
 }

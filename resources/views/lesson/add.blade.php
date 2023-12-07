@@ -13,7 +13,7 @@
                 <form action="{{ route('lesson.create',$id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @if (isset($error))
-                        <p class="text-danger">{{$error}}</p> 
+                        <p class="text-danger">{{$error}}</p>
                     @endif
                     <div class="mb-3 ">
                         <label for="exampleInputName1" class="form-label font-weight-bold">Lesson Name</label>
@@ -53,7 +53,16 @@
                             <p class="text-danger">* {{ $error }} </p>
                         @endforeach
                     @endif
-                    
+                    <div class="mb-3 ">
+                        <label for="chapterPhoto" class="form-label font-weight-bold"> Photo</label>
+                        <input type="file" name="image" value="{{old('image')}}" class="form-control" id="chapterPhoto"
+                            />
+                    </div>
+                    @if ($errors->any())
+                        @foreach ($errors->get('image') as $error)
+                            <p class="text-danger">* {{ $error }}</p>
+                        @endforeach
+                    @endif
                     <button type="submit" class="btn btn-primary px-4" >
                         Add <i class="fas fa-plus px-2"></i>
                     </button>

@@ -1,20 +1,23 @@
 @extends('admin.layout')
 
 @section('title')
-My Courses
+My Course
 @endsection
 
 @section('content')
 {{-- {{dd($course)}} --}}
 <div class="container px-5">
     <div class="row ">
-        <div class="col-md-5 col-sm-12 shadow-lg p-4 text-center rounded mb-4">
-            <h3 class="text-primary">{{$course->course_title}}</h3>
-            <p>Description : {{$course->course_brief}}</p>
-            <p> Price : {{$course->course_price}} $</p>
-            <p>Category : {{$course->category_name}}</p>
-            <p>Instructor : {{$course->instractor_name}}</p>
-            <a href="{{route('instructor.courseData',$course->id)}}" class="btn btn-primary">Go To Course <i class="fas fa-arrow-right px-2"></i></a>
+        <div class="col-md-5 col-sm-12 shadow-lg p-5 text-center rounded mb-4">
+            <h3 class="text-primary text-bold text-capitalize">{{$course->course_title}}</h3>
+            <span class="text-muted">{{$course->course_brief}}</span>
+            <h4 class="py-3 text-bold"> {{$course->course_price}} $</h4>
+            <p>Category : <span class="text-bold text-capitalize">{{$course->category_name}}</span></p>
+            <p>Instructor :  <span class="text-bold text-capitalize text-primary">{{$course->instractor_name}}</span></p>
+            @php
+                $id = session()->get('id');
+                $course_id = $course->id;
+            @endphp
         </div>
         <div class="col-md-7 col-sm-12 p-4 rounded mb-4 justify-content-around">
             <div class="row">
@@ -27,7 +30,7 @@ My Courses
                 </div>
             </div>
 
-            
+
             @php($i = 1)
             @php($j = 1)
 
@@ -45,7 +48,7 @@ My Courses
                             <p><a href="{{route('lesson.lesson',$lesson->id)}}" class="nav-link">{{$j}} -  {{$lesson->lesson_name}} </a></p>
                         </div>
             @php($j++)
-                        
+
                     @empty
                     <div class="shadow py-1 px-3 col-12">
                         <p class="nav-link text-danger">No Lessons</p>
@@ -62,9 +65,9 @@ My Courses
                 <p>Category : {{$course->category_name}}</p>
                 <p>Instructor : {{$course->instractor_name}}</p> --}}
 
-            
+
         </div>
-        
+
         {{-- @endforeach --}}
     </div>
 </div>

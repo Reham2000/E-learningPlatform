@@ -57,25 +57,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 
-
-    // Categories Routes
-    Route::controller(CategoryController::class)->group(function(){
-        Route::get('categories/{id?}','getAllCategories');
-
-    });
-
     // Instructor Routes
     Route::controller(InstructorController::class)->group(function(){
         Route::get('instructors/{id?}','getInstructor');
     });
-    // Data Course Routes
-    Route::controller(DataCourseController::class)->group(function(){
-        Route::get('get-courses-data/{id?}','getData_course');
-    });
-    // Course Routes
-    Route::controller(CourseController::class)->group(function(){
-        Route::get('courses/{id?}','getCourse');
-    });
+
     // Chapter Routes
     Route::controller(ChapterController::class)->group(function(){
         Route::get('chapter/{id?}','getChapter');
@@ -113,4 +99,19 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // Course Routes
 
+});
+
+// Categories Routes
+Route::controller(CategoryController::class)->group(function(){
+    Route::get('categories/{id?}','getAllCategories');
+
+});
+
+// Data Course Routes
+Route::controller(DataCourseController::class)->group(function(){
+    Route::get('get-courses-data/{id?}','getData_course');
+});
+// Course Routes
+Route::controller(CourseController::class)->group(function(){
+    Route::get('courses/{id?}','getCourse');
 });

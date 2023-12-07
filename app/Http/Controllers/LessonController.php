@@ -78,15 +78,31 @@ class LessonController extends Controller
         $request->validate([
             'lesson_name' => 'required|min:2|max:100',
             'lesson_desc' => 'required|min:20|max:1000',
+            'image' => 'image|mimes:png,jpg',
             'file' => 'required|mimes:pdf,doc,docx,ppt,pptx',
             'video' => 'required|mimes:mp4,mov,wmv,avi',
 
         ]);
-        $admin = Lesson::create([
-            'lesson_name' => $request->lesson_name,
-            'lesson_desc' => $request->lesson_desc,
-            'chapter_id' => $id,
-        ]);
+        if($request->image){
+            $file_extension = $request->image->getClientOriginalExtension();
+            $file_name = time() . '.' . $file_extension;
+            $path = 'images/lessons';
+            $admin = Lesson::create([
+                'lesson_name' => $request->lesson_name,
+                'lesson_desc' => $request->lesson_desc,
+                'chapter_id' => $id,
+                'image' => $file_name,
+            ]);
+            $request->image->move($path,$file_name);
+
+        }else{
+            $admin = Lesson::create([
+                'lesson_name' => $request->lesson_name,
+                'lesson_desc' => $request->lesson_desc,
+                'chapter_id' => $id,
+            ]);
+
+        }
         $lesson = Lesson::where('lesson_name',$request->lesson_name)->where('chapter_id',$id)->first();
         $file_name = $file->uploadFile($request->file);
         if(! $file->add($lesson->id,$file_name))
@@ -104,16 +120,6 @@ class LessonController extends Controller
         $courses = Course::find($chapter->course_id);
         $id = $courses->id;
         $instruct = new InstructorController;
-        return  $instruct->myCourseData($id);
-        // return view('instructor.courseData',compact('id'));
-        // return view('instructor.courseData',compact('id','course'));
-        // $video_name = '';
-        // $file_name = '';
-        // $admins = Lesson::all();
-        // if ($request->role == 1) {
-        //     return view('admin.admins',compact('admins'));
-        // }else{
-        //     return view('instructor.instructors',compact('admins'));
-        // }
+        return  $instruct->myCourseData(session()->get('id'),$id);
     }
 }

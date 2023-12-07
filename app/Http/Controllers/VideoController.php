@@ -10,11 +10,26 @@ class VideoController extends Controller
     function uploadvideo($file)
     {
         $file_extension = $file->getClientOriginalExtension();
-        
+
             $file_name = time() . '.' . $file_extension;
             $path = '../storage/app/public/videos';
             $file->move($path,$file_name);
             return $file_name;
+    }
+    function show($id)
+    {
+
+            $file = Video::find($id);
+            $myFile = storage_path("app\public\\files\\". $file->file_name);
+            if(file_exists($myFile)){
+                return response()->file($myFile);
+            }else{
+                $id = session()->get('id');
+            return redirect()->route('instructor.courses',compact('id'));
+
+            }
+
+
     }
     function add($id,$file)
     {
@@ -28,5 +43,5 @@ class VideoController extends Controller
             return false;
         }
     }
-    
+
 }

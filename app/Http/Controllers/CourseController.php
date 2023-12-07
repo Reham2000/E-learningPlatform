@@ -40,7 +40,7 @@ class CourseController extends Controller
     }
     function create(Request $request,$id)
     {
-        
+
         $request->validate([
             'course_title' => 'required|min:2|max:100',
             'course_brief' => 'required|min:2|max:1000',
@@ -58,8 +58,9 @@ class CourseController extends Controller
         $instructor->num_of_published_couress = (int) $instructor->num_of_published_couress  + 1;
         $instructor->save();
         $instruct = new InstructorController;
-        return  $instruct->myCourseData($id);
-        
+        $course = Course::where('course_title',$request->course_title)->where('course_price',$request->course_price)->where('admin_id',$id)->first();
+        return  $instruct->myCourseData($id,$course->id);
+
     }
     function getCourses()
     {
@@ -79,7 +80,7 @@ class CourseController extends Controller
 
         $courses = Course::all();
         return redirect()->route('course.courses',compact('courses'));
-        
+
 
 
     }

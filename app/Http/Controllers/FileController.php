@@ -39,6 +39,21 @@ class FileController extends Controller
 
 
     }
+    function show($id)
+    {
+
+            $file = File::find($id);
+            $myFile = storage_path("app\public\\files\\". $file->file_name);
+            if(file_exists($myFile)){
+                return response()->file($myFile);
+            }else{
+                $id = session()->get('id');
+            return redirect()->route('instructor.courses',compact('id'));
+
+            }
+
+
+    }
     function uploadImage($image)
     {
         $file_extension = $image->getClientOriginalExtension();
