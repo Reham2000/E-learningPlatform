@@ -17,14 +17,14 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6|max:30',
             'password_confirmation' => 'required',
-            'tc' => 'required'
+            // 'tc' => 'required'
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'tc' => json_decode($request->tc),
+            // 'tc' => json_decode($request->tc),
 
         ]);
 
@@ -33,7 +33,7 @@ class UserController extends Controller
         return response()->json([
             'message' => "Registeration Done Successfully!",
             'token' => $token,
-        ],201);
+        ],200);
     }
     public function login(Request $request){
 
@@ -56,7 +56,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => "Wrong Email Or Password!",
-        ],201);
+        ],400);
     }
     public function logout()
     {
@@ -117,7 +117,7 @@ class UserController extends Controller
 
         $users = user::all();
         return redirect()->route('admin.users',compact('users'));
-        
+
 
 
     }

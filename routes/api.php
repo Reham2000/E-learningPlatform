@@ -85,12 +85,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 
-    // Payment Routes
-
-
-    Route::get('payment/{userId}/{courseId}/{amount}',[PayPalController::class, 'payment'])->name('payment');
-    Route::get('cancel',[PapyalController::class, 'cancel'])->name('payment.cancel');
-    Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
 
 
 
@@ -100,6 +94,14 @@ Route::middleware('auth:sanctum')->group(function(){
     // Course Routes
 
 });
+
+// Payment Routes
+
+
+Route::get('payment/{userId}/{courseId}/{amount}',[PayPalController::class, 'payment'])->name('payment');
+Route::get('cancel',[PapyalController::class, 'cancel'])->name('payment.cancel');
+Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
+
 
 // Categories Routes
 Route::controller(CategoryController::class)->group(function(){
